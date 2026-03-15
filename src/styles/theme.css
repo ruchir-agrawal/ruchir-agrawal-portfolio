@@ -1,0 +1,45 @@
+/* ── DARK (default) ── */
+:root {
+  --black: #0c0c0c;
+  --white: #FFFDDB;
+  --off: #ccc9a8;
+  --dim: #6a6762;
+  --line: rgba(255,253,219,0.1);
+  --bg: #0c0c0c;
+  --fg: #FFFDDB;
+  /* nav glass */
+  --nav-bg: rgba(12,12,12,0.55);
+  --nav-border: rgba(255,253,219,0.08);
+  --nav-shadow: 0 1px 0 rgba(255,253,219,0.04);
+  /* toggle */
+  --tog-track: #0B0B0B;
+  --tog-knob: #2A2A2E;
+  --tog-border: #4C4C50;
+  --tog-sun-color: #8A8A8F;
+  --tog-moon-color: #FFFDDB;
+  /* ghost text */
+  --ghost-stroke: rgba(255,253,219,0.18);
+  --ghost-fill: rgba(255,253,219,0.05);
+}
+
+/* ── LIGHT ── */
+html.light {
+  --black: #FFFDDB;
+  --white: #0c0c0c;
+  --off: #3a3836;
+  --dim: #8a8784;
+  --line: rgba(12,12,12,0.1);
+  --bg: #FFFDDB;
+  --fg: #0c0c0c;
+  --nav-bg: rgba(255,253,219,0.6);
+  --nav-border: rgba(12,12,12,0.1);
+  --nav-shadow: 0 1px 0 rgba(12,12,12,0.06);
+  --tog-track: #F5F3D0;
+  --tog-knob: #ECEAC0;
+  --tog-border: #D8D6B0;
+  --tog-sun-color: #686771;
+  --tog-moon-color: #ABABB4;
+  /* ghost text */
+  --ghost-stroke: rgba(12,12,12,0.18);
+  --ghost-fill: rgba(12,12,12,0.06);
+}
