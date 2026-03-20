@@ -173,6 +173,7 @@ export function WigglingCards({ projects }) {
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           onDragEnd={handleDragEnd}
+          style={{ touchAction: 'none' }}
           className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing"
         />
 
