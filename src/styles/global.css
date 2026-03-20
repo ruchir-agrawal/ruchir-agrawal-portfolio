@@ -7,12 +7,16 @@ html { scroll-behavior: smooth; }
 body, a, button, .proj-row, .sk-cell, .stat-box, .ct-big, [class*="r"] {
   cursor: none !important;
 }
+html, body { 
+  overflow-x: hidden; 
+  width: 100%;
+  position: relative;
+}
 body {
   background: var(--bg);
   color: var(--fg);
   font-family: 'Barlow', sans-serif;
   font-weight: 300;
-  overflow-x: hidden;
   transition: background 0.4s, color 0.4s;
 }
 
@@ -61,7 +65,7 @@ nav {
   top: 16px; left: 50%;
   transform: translateX(-50%);
   z-index: 100;
-  width: calc(100% - 64px);
+  width: calc(100% - 48px);
   max-width: 1200px;
   padding: 0 28px;
   height: 56px;
@@ -105,7 +109,33 @@ nav a {
   transition: color 0.2s;
 }
 nav a:hover { color: var(--fg); }
-.nav-right { display: flex; align-items: center; gap: 28px; position: relative; z-index: 1; }
+.nav-right { display: flex; align-items: center; gap: 24px; position: relative; z-index: 1; }
+
+/* ── MOBILE MENU TOGGLE ── */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 6px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: none;
+  z-index: 101;
+  padding: 0;
+}
+.menu-toggle .line {
+  width: 24px;
+  height: 1.5px;
+  background: var(--fg);
+  transition: transform 0.3s, opacity 0.3s;
+}
+.menu-toggle .line:last-child { width: 16px; }
+.menu-toggle.active .line { width: 24px; }
+.menu-toggle.active .line:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
+.menu-toggle.active .line:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
 
 /* ── WATERMELON TOGGLE ── */
 .sw-btn {
@@ -1030,22 +1060,82 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   nav { width: calc(100% - 32px); top: 12px; padding: 0 20px; }
-  nav ul { display: none; }
-  section { padding: 64px 24px; }
-  #hero { padding: 0 24px 56px; }
-  #contact { padding: 64px 24px 48px; }
-  #manifest { padding: 80px 24px; }
-  footer { padding: 18px 24px; }
-  .hero-content { grid-template-columns: 1fr; gap: 36px; }
+  
+  .menu-toggle { display: flex; }
+
+  nav ul {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  nav ul.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  nav ul a {
+    font-size: 2.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  section { padding: 80px 24px; }
+  #hero { padding: 0 24px 64px; justify-content: center; }
+  
+  .hero-ghost {
+    font-size: 45vw;
+    top: 45%;
+    left: -5%;
+    opacity: 0.4;
+  }
+  
+  .hero-content { 
+    grid-template-columns: 1fr; 
+    gap: 48px; 
+    text-align: left;
+  }
+  
+  .hero-name {
+    font-size: clamp(4rem, 18vw, 6.5rem);
+  }
+  
+  .hero-role {
+    font-size: 1.5rem;
+  }
+
+  .sh-title { font-size: 3.2rem; }
+  
   .about-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .about-big { font-size: 3.8rem; }
+  
   .sk-grid { grid-template-columns: 1fr 1fr; }
-  .proj-row { grid-template-columns: 48px 1fr; }
+  .sk-abbr { font-size: 2.4rem; }
+  
+  .proj-row { grid-template-columns: 40px 1fr; padding: 24px 0; }
+  .p-name { font-size: 1.8rem; }
   .p-tags { display: none; }
-  .ct-big { font-size: clamp(2.8rem, 10vw, 5rem); }
-  .ct-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+  
+  .ct-big { font-size: clamp(2.8rem, 12vw, 5rem); margin-bottom: 40px; }
+  .ct-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
+  
+  .manifest-statement { font-size: 2rem; }
   .manifest-body { grid-template-columns: 1fr; gap: 32px; }
+  
   .hr-divider { margin: 0 24px; }
   .hero-scroll { display: none; }
-  .project-detail { padding: 100px 24px 60px; }
+  
+  .project-detail { padding: 120px 24px 60px; }
+  .project-detail-name { font-size: 3.5rem; }
   .project-detail-body { grid-template-columns: 1fr; gap: 40px; }
+  
+  .stats { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
 }

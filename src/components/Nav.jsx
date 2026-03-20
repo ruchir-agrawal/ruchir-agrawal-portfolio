@@ -1,25 +1,34 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { haptics } from '../utils/haptics';
 
 export default function Nav({ theme, toggleTheme }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   // Smooth-scroll for same-page hash links
   const handleAnchor = (e, hash) => {
     e.preventDefault();
+    setIsOpen(false);
     const el = document.querySelector(hash);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
     haptics.tick(1200, 0.01);
   };
 
-  const handleToggle = () => {
+  const handleToggleTheme = () => {
     toggleTheme();
     haptics.flip();
   };
 
-  return (
-    <nav>
-      <Link className="logo" to="/">RA</Link>
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+    haptics.tick(1000, 0.01);
+  };
 
-      <ul>
+  return (
+    <nav className={isOpen ? 'nav-open' : ''}>
+      <Link className="logo" to="/" onClick={() => setIsOpen(false)}>RA</Link>
+
+      <ul className={isOpen ? 'active' : ''}>
         <li><a href="#projects" onClick={e => handleAnchor(e, '#projects')}>Work</a></li>
         <li><a href="#skills"   onClick={e => handleAnchor(e, '#skills')}>Skills</a></li>
         <li><a href="#about"    onClick={e => handleAnchor(e, '#about')}>About</a></li>
@@ -27,12 +36,22 @@ export default function Nav({ theme, toggleTheme }) {
       </ul>
 
       <div className="nav-right">
+        {/* Mobile Menu Toggle */}
+        <button 
+          className={`menu-toggle ${isOpen ? 'active' : ''}`} 
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          <span className="line"></span>
+          <span className="line"></span>
+        </button>
+
         {/* Watermelon-style theme toggle */}
         <button
           id="themeToggle"
           className="sw-btn"
           data-theme={theme}
-          onClick={handleToggle}
+          onClick={handleToggleTheme}
           onMouseEnter={() => haptics.tick(3000, 0.002)}
           aria-label="Toggle theme"
         >
