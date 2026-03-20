@@ -27,7 +27,6 @@ body {
   width: 28px; height: 28px;
   pointer-events: none;
   z-index: 9999;
-  /* transform handled in JS for lerp */
   transition: width 0.3s, height 0.3s, opacity 0.3s;
   display: flex;
   align-items: center;
@@ -37,12 +36,19 @@ body {
   width: 100%; height: 100%;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
-/* hide crosshair lines since we switched to arrow */
 #cursor::before,
 #cursor::after { display: none; }
 
 #cursor.big { width: 34px; height: 34px; }
 #cursor.on-toggle { width: 12px; height: 12px; opacity: 0.5; }
+
+/* ── Hide custom cursor on touch / mobile devices ── */
+@media (hover: none) and (pointer: coarse) {
+  #cursor, #cursor-ring { display: none !important; }
+  body, a, button, .proj-row, .sk-cell, .stat-box, .ct-big, [class*="r"] {
+    cursor: auto !important;
+  }
+}
 
 #cursor-ring {
   position: fixed;
@@ -98,6 +104,62 @@ nav::before {
   z-index: 1;
 }
 nav ul { list-style: none; display: flex; gap: 32px; position: relative; z-index: 1; }
+.desktop-nav-links { list-style: none; display: flex; gap: 32px; position: relative; z-index: 1; }
+
+/* ── MOBILE MENU OVERLAY (full-screen, lives outside the pill) ── */
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mobile-menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobile-menu-overlay ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding: 0;
+}
+.mobile-menu-overlay ul a {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 8vw, 3.2rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.mobile-menu-overlay ul a:hover { opacity: 0.5; }
+.mobile-menu-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--nav-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.mobile-menu-close:hover { border-color: var(--fg); }
+.mobile-menu-close svg { width: 18px; height: 18px; color: var(--fg); }
 nav a {
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 0.75rem;
@@ -1060,32 +1122,10 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   nav { width: calc(100% - 32px); top: 12px; padding: 0 20px; }
-  
-  .menu-toggle { display: flex; }
 
-  nav ul {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 32px;
-    z-index: 99;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  nav ul.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  nav ul a {
-    font-size: 2.5rem;
-    font-family: 'Bebas Neue', sans-serif;
-  }
+  .menu-toggle { display: flex; }
+  .desktop-nav-links { display: none; }
+  .mobile-menu-overlay { display: flex; }
 
   section { padding: 80px 24px; }
   #hero { padding: 0 24px 64px; justify-content: center; }
